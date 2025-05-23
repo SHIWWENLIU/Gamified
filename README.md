@@ -47,6 +47,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
                                            ↕
                                  [External AI Services]
 ```
+<img width="723" alt="image" src="https://github.com/user-attachments/assets/67ac8a14-8459-4f32-9552-de64d9d544e5" />
 
 ### Technology Stack
 - Frontend: React, TypeScript
