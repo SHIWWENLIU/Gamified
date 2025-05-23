@@ -30,6 +30,13 @@ export default function LessonPage() {
       if (data.badge) {
         setBadge(data.badge)
       }
+      if (currentIndex < questions.length - 1) {
+        setCurrentIndex((prev) => prev + 1)
+        setSelected(null)
+        setFeedback(null)
+      } else {
+        setDone(true)
+      }
     } else {
       setFeedback('Incorrect.')
     }
