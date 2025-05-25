@@ -1,4 +1,4 @@
-import { supabase } from "../lib/supabase"
+import { supabase } from "../lib/Supabase"
 import { QuestionBackend } from "../schemas/types"
 
 export async function getQuestions(): Promise<QuestionBackend[]>{
