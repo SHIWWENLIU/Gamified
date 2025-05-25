@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from "react";
-import { fetchQuestions } from '../actions/fetchQuestions';
 import { QuestionBackend } from '../schemas/types';
 
 const SupabaseComp: React.FC = () => {
@@ -16,9 +15,9 @@ const SupabaseComp: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await fetchQuestions();
-      console.log(`data: ${JSON.stringify(data, null, 2)}`);
-      setQuestions(data || []);
+      // const data = await fetchQuestions();
+      // console.log(`data: ${JSON.stringify(data, null, 2)}`);
+      // setQuestions(data || []);
     } catch (err) {
       console.error("Error fetching questions:", err);
       setError("Failed to load data. Please try again later.");

@@ -1,9 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { fetchQuestions } from '../actions/fetchQuestions'
 import { QuestionBackend } from '../schemas/types'
 import { useRouter } from 'next/navigation'
+import {
+  Box, Button, Typography, Radio, RadioGroup,
+  FormControlLabel, FormControl, Paper, Stack
+} from '@mui/material'
+import RouteButtons from '../components/RouteButton'
 
 export default function LessonPage() {
   const [questions, setQuestions] = useState<QuestionBackend[]>([])
@@ -15,9 +19,13 @@ export default function LessonPage() {
   const router = useRouter()
   
   useEffect(() => {
-    fetchQuestions().then((qs) => {
-      if (qs) setQuestions(qs)
-    })
+    fetch('/api/questions')
+      .then(res => res.json())
+      .then(resp => {
+        if (Array.isArray(resp.data)) {
+          setQuestions(resp.data)
+        }
+      })
   }, [])
 
   const handleSubmit = async () => {
@@ -42,44 +50,58 @@ export default function LessonPage() {
     }
   }
 
-  if (questions.length === 0) return <p>Loading...</p>
+  if (questions && questions.length === 0) return <p>Loading...</p>
 
   const q = questions[currentIndex]
 
   return (
-    <div>
-      <h1>The Lesson</h1>
-      <p>{q.question}</p>
-      <ol type="A">
-        {[q.answer_1, q.answer_2, q.answer_3, q.answer_4].map((ans, idx) => (
-          <li key={idx}>
-            <label>
-              <input
-                type="radio"
-                name="answer"
-                checked={selected === idx}
-                onChange={() => setSelected(idx)}
-              />
-              {ans}
-            </label>
-          </li>
-        ))}
-      </ol>
-
-      <button onClick={handleSubmit} disabled={selected === null}>
-        Submit
-      </button>
-
-      {feedback && <p>{feedback}</p>}
-      {done && <p>Completed! Streak updated.</p>}
-      {badge && <p>Got new badge: {badge}</p>}
-        <br/>
-      <button onClick={() => router.push('/')} style={{ marginTop: 20 }}>
-        Back to Home
-        </button>
-      <button onClick={() => router.push('/profile')} style={{ marginLeft: 16 }}>
-        Go to Profile
-      </button>
-    </div>
+  <Box maxWidth={600} mx="auto" mt={6}>
+  {q ? (
+    <Paper elevation={3} sx={{ p: 4 }}>
+      <Typography variant="h5" gutterBottom>The Lesson</Typography>
+      <Typography variant="subtitle1" gutterBottom>{q.question}</Typography>
+      <FormControl component="fieldset" sx={{ mb: 3 }}>
+        <RadioGroup
+          name="answers"
+          value={selected}
+          onChange={(_, value) => setSelected(Number(value))}
+        >
+          {[q.answer_1, q.answer_2, q.answer_3, q.answer_4].map((ans, idx) => (
+            <FormControlLabel
+              key={idx}
+              value={idx}
+              control={<Radio />}
+              label={ans}
+            />
+          ))}
+        </RadioGroup>
+      </FormControl>
+      <Stack direction="row" mb={2}>
+        <Button variant="contained" onClick={handleSubmit} disabled={selected === null}>
+          Submit
+        </Button>
+        </Stack>
+        <RouteButtons
+          routes={[
+            { label: 'Back to Home', to: '/', variant: 'outlined' },
+            { label: 'Go to Profile', to: '/profile', variant: 'outlined' }
+          ]}
+        />
+      {feedback && <Typography sx={{ mt: 2 }}>{feedback}</Typography>}
+      {done && <Typography sx={{ mt: 2 }}>Completed! Streak updated.</Typography>}
+      {badge && <Typography sx={{ mt: 2 }}>Got new badge: {badge}</Typography>}
+    </Paper>
+  ) : (
+        <Paper elevation={3} sx={{ p: 4 }}>
+          <Typography>No lesson.</Typography>
+          <RouteButtons
+            routes={[
+              { label: 'Back to Home', to: '/', variant: 'outlined' },
+              { label: 'Go to Profile', to: '/profile', variant: 'outlined' }
+            ]}
+          />
+        </Paper>
+  )}
+</Box>
   )
 }

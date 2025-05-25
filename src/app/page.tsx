@@ -1,19 +1,26 @@
 'use client'
-
+import { Box, Paper, Typography, Stack } from '@mui/material'
 import { useRouter } from 'next/navigation'
+import RouteButtons from './components/RouteButton'
 
 export default function HomePage() {
   const router = useRouter()
 
   return (
-    <div>
-      <h1>Welcome to Gamified Learning Platform</h1>
-      <button onClick={() => router.push('/profile')}>
-        Go to Profile
-        </button>
-      <button onClick={() => router.push('/lesson')} style={{ marginLeft: 16 }}>
-        Start a Lesson
-      </button>
-    </div>
+    <Box maxWidth={1200} mx="auto" mt={6}>
+    <Paper elevation={4} sx={{ p: 4 }}>
+      <Stack alignItems="center" spacing={3}>
+        <Typography variant="h4" fontWeight={600}>
+          Welcome to the Gamified Learning Platform
+        </Typography>
+        <RouteButtons
+          routes={[
+            { label: 'Start a Lesson', to: '/lesson', variant: 'outlined' },
+            { label: 'View My Profile', to: '/profile', variant: 'outlined' }
+          ]}
+        />
+      </Stack>
+    </Paper>
+  </Box>
   )
 }

@@ -1,4 +1,4 @@
-import { supabase } from '../lib/Supabase'
+import { supabase } from '../lib/supabase'
 import { redis } from '../lib/redis'
 import { isToday, isYesterday, parseISO } from 'date-fns'
 

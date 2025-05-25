@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { Box, Paper, Typography, Stack, Chip, Divider } from '@mui/material'
+import RouteButtons from '../components/RouteButton'
 
 interface UserBadge {
   id: number
@@ -33,31 +35,38 @@ export default function ProfilePage() {
   if (loading) return <div>Loading profile...</div>
 
   return (
-    <div>
-      <h1>Profile</h1>
-      <div style={{ marginBottom: 24 }}>
-        <strong>Current streak:</strong> {streak} day{streak === 1 ? '' : 's'}
-      </div>
-      <div>
-        <strong>Badges:</strong>
-        <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginTop: 12 }}>
-          {badges.length === 0 ? (
-            <span>No badges yet.</span>
-          ) : (
-            badges.map((badge) => (
-              <div key={badge.id} style={{ textAlign: 'center' }}>
-                <div>{badge.badge_id}</div>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-      <button onClick={() => router.push('/')}>
-        Back to Home
-        </button>
-      <button onClick={() => router.push('/lesson')} style={{ marginLeft: 16 }}>
-        Start a Lesson
-      </button>
-    </div>
+    <Box maxWidth={600} mx="auto" mt={6}>
+      <Paper elevation={4} sx={{ p: 4 }}>
+        <Stack direction="row" alignItems="center" spacing={2}>
+          <Box>
+            <Typography variant="h5">Your Profile</Typography>
+            <Stack direction="row" spacing={2} alignItems="center" mt={1}>
+              <Chip label={`Streak: ${streak ?? 0} days`} color="primary" sx={{ fontSize: 16, height: 36 }} />
+              <Chip label={`Badges: ${badges.length}`} color="success" sx={{ fontSize: 16, height: 36 }} />
+            </Stack>
+          </Box>
+        </Stack>
+        <Divider sx={{ my: 3 }} />
+        <Typography variant="h6" gutterBottom>Badges</Typography>
+        {badges.length === 0 && <Typography variant="body1">No badges earned yet. Keep learning!</Typography>}
+        <Stack direction="row" spacing={2} flexWrap="wrap">
+          {badges.map((badge, idx) => (
+            <Chip
+              key={badge.id || idx}
+              label={badge.badge_id}
+              color="warning"
+              sx={{ mb: 1, fontSize: 15 }}
+            />
+          ))}
+        </Stack>
+        <Divider sx={{ my: 3 }} />
+        <RouteButtons
+        routes={[
+          { label: 'Back to Home', to: '/', variant: 'outlined' },
+          { label: 'Start a Lesson', to: '/lesson', variant: 'contained' }
+        ]}
+      />
+      </Paper>
+    </Box>
   )
 }
