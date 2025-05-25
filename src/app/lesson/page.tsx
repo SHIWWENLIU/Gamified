@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { QuestionBackend } from '../schemas/types'
-import { useRouter } from 'next/navigation'
 import {
   Box, Button, Typography, Radio, RadioGroup,
   FormControlLabel, FormControl, Paper, Stack
@@ -16,7 +15,6 @@ export default function LessonPage() {
   const [done, setDone] = useState(false)
   const [badge, setBadge] = useState<string | null>(null)
   const [feedback, setFeedback] = useState<string | null>(null)
-  const router = useRouter()
   
   useEffect(() => {
     fetch('/api/questions')

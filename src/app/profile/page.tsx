@@ -1,6 +1,4 @@
 'use client'
-
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Box, Paper, Typography, Stack, Chip, Divider } from '@mui/material'
 import RouteButtons from '../components/RouteButton'
@@ -15,7 +13,6 @@ export default function ProfilePage() {
   const [streak, setStreak] = useState<number>(0)
   const [badges, setBadges] = useState<UserBadge[]>([])
   const [loading, setLoading] = useState(true)
-  const router = useRouter()
 
   useEffect(() => {
     async function fetchProfile() {

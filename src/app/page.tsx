@@ -1,10 +1,9 @@
 'use client'
 import { Box, Paper, Typography, Stack } from '@mui/material'
-import { useRouter } from 'next/navigation'
 import RouteButtons from './components/RouteButton'
 
 export default function HomePage() {
-  const router = useRouter()
+
 
   return (
     <Box maxWidth={1200} mx="auto" mt={6}>
